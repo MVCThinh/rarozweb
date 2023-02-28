@@ -33,5 +33,11 @@ app.MapRazorPages();
 
 app.Run();
 
+/*
+Create read update ,delete (CRUD)
+
+dotnet aspnet-codegenerator razorpage -m rarozweb.models.Article -dc rarozweb.models.MyBlogContext -outDir Pages/Blog -udl -scripts
+*/
+
 
 

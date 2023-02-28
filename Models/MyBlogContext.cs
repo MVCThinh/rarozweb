@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace rarozweb.models
 {
+    // rarozweb.models.MyBlogContext
     public class MyBlogContext : DbContext
     {
         public MyBlogContext(DbContextOptions<MyBlogContext> options) : base(options)
