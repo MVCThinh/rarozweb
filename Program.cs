@@ -24,14 +24,14 @@ builder.Services.AddDbContext<MyBlogContext>(options =>
 });
 
 //Dang ky Identity
-// builder.Services.AddIdentity<AppUser, IdentityRole>()
-//                 .AddEntityFrameworkStores<MyBlogContext>()
-//                 .AddDefaultTokenProviders();
-
-// Dang ky Default Identity
-builder.Services.AddDefaultIdentity<AppUser>()
+builder.Services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyBlogContext>()
                 .AddDefaultTokenProviders();
+
+// Dang ky Default Identity
+// builder.Services.AddDefaultIdentity<AppUser>()
+//                 .AddEntityFrameworkStores<MyBlogContext>()
+//                 .AddDefaultTokenProviders();
                
 
 
