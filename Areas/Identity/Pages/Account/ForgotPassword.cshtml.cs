@@ -45,7 +45,7 @@ namespace _23.RarozEF.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required (ErrorMessage = "Phải nhập {0}")]
             [EmailAddress]
             public string Email { get; set; }
         }
@@ -64,7 +64,9 @@ namespace _23.RarozEF.Areas.Identity.Pages.Account
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
