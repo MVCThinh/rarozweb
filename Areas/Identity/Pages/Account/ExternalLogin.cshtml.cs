@@ -152,6 +152,50 @@ namespace _23.RarozEF.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+
+                var registeredUser = await _userManager.FindByEmailAsync(Input.Email);
+                string externalEmail = null;
+                AppUser externalEmailUser = null;
+
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    externalEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+                }
+
+                if (externalEmail != null)
+                {
+                    externalEmailUser = await _userManager.FindByEmailAsync(externalEmail);
+                }
+
+                if ((registeredUser != null) && (externalEmailUser != null))
+                {
+                    if (registeredUser.Id == externalEmailUser.Id)
+                    {
+                        // Lien ket tai khoan
+                        var resultLink = await _userManager.AddLoginAsync(registeredUser, info);
+                        if (resultLink.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(registeredUser, isPersistent : false);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Không liên kết được tài khoản, hãy sử dụng Email khác");
+                        return Page();
+                    }
+                }
+
+                if ((externalEmailUser != null) && (registeredUser == null))
+                {
+                    ModelState.AddModelError(string.Empty, "Không liên kết được tài khoản, hãy sử dụng Email khác");
+                    return Page();
+                }
+
+
+
+
+
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
